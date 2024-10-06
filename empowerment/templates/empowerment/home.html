@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <section class="intro">
+        <h1>Welcome to the Economic Empowerment Platform</h1>
+        <p>Our mission is to promote financial inclusion, job creation, and equitable wealth distribution for communities worldwide.</p>
+    </section>
+
+    <section class="features">
+        <div class="feature-item">
+            <h2>Financial Services</h2>
+            <p>We provide access to financial tools and services that help individuals and businesses manage their finances and grow sustainably.</p>
+            <a href="{% url 'financial_services' %}" class="btn">Learn More</a>
+        </div>
+
+        <div class="feature-item">
+            <h2>Job Creation</h2>
+            <p>Explore job opportunities and learn how to create employment through entrepreneurship and business initiatives.</p>
+            <a href="{% url 'job_listings' %}" class="btn">View Jobs</a>
+        </div>
+
+        <div class="feature-item">
+            <h2>Wealth Distribution</h2>
+            <p>Learn about initiatives that focus on equitable wealth distribution and how they impact communities for the better.</p>
+            <a href="{% url 'wealth_initiatives' %}" class="btn">Discover More</a>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Join Us in Making a Difference</h2>
+        <p>Sign up today to stay updated on our programs and participate in initiatives that promote economic empowerment.</p>
+        <a href="{% url 'signup' %}" class="btn btn-primary">Get Started</a>
+    </section>
+</div>
+{% endblock %}

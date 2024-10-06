@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from .models import FinancialService, JobListing, WealthDistributionInitiative
+from .models import FinancialService, JobListing, WealthInitiatives
 # Create your views here.
+
+def home(request):
+    return render(request, 'empowerment/base.html') 
 
 def financial_services(request):
     services = FinancialService.objects.all()
@@ -11,5 +14,6 @@ def job_listings(request):
     return render(request, 'empowerment/job_listings.html', {'jobs': jobs})
 
 def wealth_initiatives(request):
-    initiatives = WealthDistributionInitiative.objects.all()
+    initiatives = WealthInitiatives.objects.all()
     return render(request, 'empowerment/wealth_initiatives.html', {'initiatives': initiatives})
+

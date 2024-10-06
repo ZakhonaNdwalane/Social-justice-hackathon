@@ -13,3 +13,27 @@
     {% endfor %}
     </ul>
 {% endblock %}
+
+{% extends 'base.html' %}
+
+{% block title %}Wealth Initiatives{% endblock %}
+
+{% block content %}
+    <h1>Wealth Distribution Initiatives</h1>
+    <p>Explore initiatives that focus on equitable wealth distribution and how they help improve economic conditions for underserved communities.</p>
+    
+    <ul>
+    {% for service in services %}
+        <li>
+            <h2>{{ service.name }}</h2>
+            <p>{{ service.description }}</p>
+            <p><strong>Type:</strong> {{ service.service_type }}</p>
+            <p><strong>Eligibility:</strong> {{ service.eligibility_criteria }}</p>
+            <p><strong>Contact:</strong> {{ service.contact_info }}</p>
+        </li>
+    {% empty %}
+        <li>No wealth distribution initiatives found at this time.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+

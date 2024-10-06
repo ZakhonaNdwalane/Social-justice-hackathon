@@ -24,7 +24,7 @@ class JobListing(models.Model):
     def __str__(self):
         return self.title
 
-class WealthDistributionInitiative(models.Model):
+class WealthInitiatives(models.Model):
     initiative_name = models.CharField(max_length=255)
     description = models.TextField()
     funding_goal = models.DecimalField(max_digits=12, decimal_places=2)
@@ -35,3 +35,4 @@ class WealthDistributionInitiative(models.Model):
     
     def __str__(self):
         return self.initiative_name
+
