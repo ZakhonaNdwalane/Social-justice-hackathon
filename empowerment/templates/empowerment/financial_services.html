@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Financial Services</h1>
+    <ul>
+    {% for service in services %}
+        <li>
+            <h2>{{ service.name }}</h2>
+            <p>{{ service.description }}</p>
+            <p><strong>Type:</strong> {{ service.service_type }}</p>
+            <p><strong>Eligibility:</strong> {{ service.eligibility_criteria }}</p>
+            <p><strong>Contact:</strong> {{ service.contact_info }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
