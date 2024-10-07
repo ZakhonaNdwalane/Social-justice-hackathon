@@ -1,39 +1,47 @@
-{% extends 'base.html' %}
+
+{% extends 'empowerment/base.html' %}
+{% block title %}Financial Services{% endblock %}
 {% block content %}
-    <h1>Financial Services</h1>
-    <ul>
-    {% for service in services %}
-        <li>
-            <h2>{{ service.name }}</h2>
-            <p>{{ service.description }}</p>
-            <p><strong>Type:</strong> {{ service.service_type }}</p>
-            <p><strong>Eligibility:</strong> {{ service.eligibility_criteria }}</p>
-            <p><strong>Contact:</strong> {{ service.contact_info }}</p>
-        </li>
-    {% endfor %}
-    </ul>
-{% endblock %}
 
-{% extends 'base.html' %}
+<main>
+<div class="container">
+        <h1>Financial Services</h1>
+        <ul>
+        {% for service in services %}
+            <li>
+                <h2>{{ service.name }}</h2>
+                <p>{{ service.description }}</p>
+                <p><strong>Type:</strong> {{ service.service_type }}</p>
+                <p><strong>Eligibility:</strong> {{ service.eligibility_criteria }}</p>
+                <p><strong>Contact:</strong> {{ service.contact_info }}</p>
+            </li>
+        {% endfor %}
+         {% lorem 1 b random %}
+        </ul>
+    <br>
+    <hr>
+    <br>
 
-{% block title %}Wealth Initiatives{% endblock %}
-
-{% block content %}
-    <h1>Wealth Distribution Initiatives</h1>
-    <p>Explore initiatives that focus on equitable wealth distribution and how they help improve economic conditions for underserved communities.</p>
     
-    <ul>
-    {% for service in services %}
-        <li>
-            <h2>{{ service.name }}</h2>
-            <p>{{ service.description }}</p>
-            <p><strong>Type:</strong> {{ service.service_type }}</p>
-            <p><strong>Eligibility:</strong> {{ service.eligibility_criteria }}</p>
-            <p><strong>Contact:</strong> {{ service.contact_info }}</p>
-        </li>
-    {% empty %}
-        <li>No wealth distribution initiatives found at this time.</li>
-    {% endfor %}
-    </ul>
+
+
+        <h1>Wealth Distribution Initiatives</h1>
+        <p>Explore initiatives that focus on equitable wealth distribution and how they help improve economic conditions for underserved communities.</p>
+        
+        <ul>
+        {% for service in services %}
+            <li>
+                <h2>{{ service.name }}</h2>
+                <p>{{ service.description }}</p>
+                <p><strong>Type:</strong> {{ service.service_type }}</p>
+                <p><strong>Eligibility:</strong> {{ service.eligibility_criteria }}</p>
+                <p><strong>Contact:</strong> {{ service.contact_info }}</p>
+            </li>
+        {% empty %}
+            <li>No wealth distribution initiatives found at this time.</li>
+        {% endfor %}
+        </ul>
+</div>
+</main>
 {% endblock %}
 

@@ -3,7 +3,7 @@ from .models import FinancialService, JobListing, WealthInitiatives
 # Create your views here.
 
 def home(request):
-    return render(request, 'empowerment/base.html') 
+    return render(request, 'empowerment/home.html') 
 
 def financial_services(request):
     services = FinancialService.objects.all()

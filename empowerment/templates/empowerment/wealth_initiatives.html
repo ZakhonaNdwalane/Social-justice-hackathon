@@ -1,22 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'empowerment/base.html' %}
 
 {% block title %}Wealth Distribution Initiatives{% endblock %}
 
 {% block content %}
 <h1>Wealth Distribution Initiatives</h1>
 <ul>
-    {% for initiative in initiatives %}
-    <li>
-        <h2>{{ initiative.initiative_name }}</h2>
-        <p>{{ initiative.description }}</p>
-        <p><strong>Funding Goal:</strong> ${{ initiative.funding_goal }}</p>
-        <p><strong>Funds Raised:</strong> ${{ initiative.funds_raised }}</p>
-        <p><strong>Beneficiaries:</strong> {{ initiative.beneficiaries }}</p>
-        <p><strong>Start Date:</strong> {{ initiative.start_date }}</p>
-        <p><strong>End Date:</strong> {{ initiative.end_date }}</p>
-    </li>
-    {% empty %}
-        <li>No initiatives available.</li>
-    {% endfor %}
+  
+    {% lorem 1 b random %}
 </ul>
 {% endblock %}
