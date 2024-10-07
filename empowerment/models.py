@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 # Create your models here.
@@ -24,7 +25,6 @@ class FinancialService(models.Model):
     def __str__(self):
         return self.name
 
-
 class JobListing(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -35,7 +35,6 @@ class JobListing(models.Model):
     
     def __str__(self):
         return self.title
-
 
 class WealthInitiatives(models.Model):
     initiative_name = models.CharField(max_length=255)
@@ -61,3 +60,15 @@ class WealthInitiatives(models.Model):
     def save(self, *args, **kwargs):
         self.clean()
         super(WealthInitiatives, self).save(*args, **kwargs)
+
+class User(models.Model):
+    email = models.EmailField()
+    username = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.username
+
+class LoginForm(models.Model): 
+    username = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)

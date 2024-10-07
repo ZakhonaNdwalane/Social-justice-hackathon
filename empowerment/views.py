@@ -1,23 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import FinancialService, JobListing, WealthInitiatives
 from django.utils import timezone
-from datetime import datetime
 from datetime import date
 from django.db.models import Sum
 from django.contrib import messages
 from .forms import CreateInitiativeForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
 
 # Home View
+@login_required
 def home(request):
     return render(request, 'empowerment/home.html')
 
 # Contact View
+@login_required
 def contact(request):
     return render(request, 'empowerment/contact.html')
 
 # Financial Services View
+@login_required 
 def financial_services(request):
     # Predefined list of important financial services for economic empowerment
     services = [
@@ -123,19 +127,15 @@ def job_listings(request):
     return render(request, 'empowerment/job_listings.html', {'jobs': jobs})
 
 # Wealth Initiatives View
+@login_required
 def wealth_initiatives(request):
-    # Retrieve ongoing initiatives and all initiatives
     ongoing_initiatives = WealthInitiatives.objects.filter(end_date__gte=date.today())
     initiatives = WealthInitiatives.objects.all()
-
-    # Calculate total stats
-    total_funds_raised = sum(initiative.funds_raised for initiative in initiatives)
-    total_beneficiaries = sum(int(initiative.beneficiaries) for initiative in initiatives)
-
-    # Initialize the form outside of the request method check
+    total_funds_raised = initiatives.aggregate(Sum('funds_raised'))['funds_raised__sum']
+    total_beneficiaries = initiatives.aggregate(Sum('beneficiaries'))['beneficiaries__sum']
+    
     form = CreateInitiativeForm()  # Default form initialization for GET request
 
-    # Handle the form submission for creating, updating, or deleting an initiative
     if request.method == 'POST':
         if 'update_initiative' in request.POST:
             initiative_id = request.POST.get('initiative_id')
@@ -144,28 +144,22 @@ def wealth_initiatives(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Initiative updated successfully.')
-                return redirect('empowerment:wealth_initiatives')  # Redirect after POST
             else:
-                messages.error(request, 'Failed to update initiative. Please check the form and try again.')
+                messages.error(request, 'Failed to update initiative.')
         elif 'delete_initiative' in request.POST:
             initiative_id = request.POST.get('initiative_id')
             initiative = get_object_or_404(WealthInitiatives, id=initiative_id)
             initiative.delete()
             messages.success(request, 'Initiative deleted successfully.')
-            return redirect('empowerment:wealth_initiatives')  # Redirect after POST
-        else:  # For creating a new initiative
+        else:
             form = CreateInitiativeForm(request.POST)
             if form.is_valid():
-                initiative = form.save(commit=False)
-                initiative.save()
+                form.save()
                 messages.success(request, 'Initiative created successfully.')
-                return redirect('empowerment:wealth_initiatives')  # Redirect after POST
             else:
-                messages.error(request, 'Failed to create initiative. Please check the form and try again.')
-    else:
-        form = CreateInitiativeForm()  # Initialize the form for GET requests
+                messages.error(request, 'Failed to create initiative.')
+        return redirect('empowerment:wealth_initiatives')
 
-    # Pass the data to the template
     context = {
         'form': form,
         'ongoing_initiatives': ongoing_initiatives,
@@ -176,3 +170,53 @@ def wealth_initiatives(request):
 
     return render(request, 'empowerment/wealth_initiatives.html', context)
 
+#Login View
+def login_view(request):
+    if request.method == 'POST':
+        login_form = AuthenticationForm(request, data=request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data.get('username')
+            password = login_form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Welcome, {username}! You are now logged in.')
+                return redirect('empowerment:home')  # Redirect after successful login
+            else:
+                messages.error(request, 'Invalid username or password. Redirecting to signup page.')
+                return redirect('empowerment:signup')  # Redirect to the signup page if user is not found
+        else:
+            messages.error(request, 'Login form is invalid. Please check your inputs.')
+
+    else:
+        login_form = AuthenticationForm()  # Display empty form
+
+    context = {
+        'login_form': login_form,
+    }
+    return render(request, 'empowerment/login.html', context)
+
+#Signup View
+def signup_view(request):
+    if request.method == 'POST':
+        signup_form = UserCreationForm(request.POST)
+        if signup_form.is_valid():
+            signup_form.save()
+            messages.success(request, 'Account created successfully. Please log in.')
+            return redirect('empowerment:login')  # Redirect to login page after signup
+        else:
+            messages.error(request, 'Signup form is invalid. Please check the information.')
+
+    else:
+        signup_form = UserCreationForm()  # Display empty form
+
+    context = {
+        'signup_form': signup_form,
+    }
+    return render(request, 'empowerment/signup.html', context)
+
+# Logout View
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'You have successfully logged out.')
+    return redirect('empowerment:login')

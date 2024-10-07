@@ -1,12 +1,81 @@
-
 {% extends 'empowerment/base.html' %}
 
 {% block title %}Wealth Initiatives{% endblock %}
 
 {% block content %}
 <h1>Wealth Initiatives</h1>
-<ul>
-  
-    {% lorem 1 b random %}
-</ul>
+
+<!-- Display Total Stats -->
+<div>
+    <h3>Total Stats</h3>
+    <p><strong>Total Funds Raised:</strong> {{ total_funds_raised }}</p>
+    <p><strong>Total Beneficiaries:</strong> {{ total_beneficiaries }}</p>
+</div>
+
+<!-- Form for Creating/Updating Initiatives -->
+<div>
+    <h3>Create or Update an Initiative</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<!-- Ongoing Initiatives -->
+<div>
+    <h3>Ongoing Initiatives</h3>
+    <ul>
+        {% for initiative in ongoing_initiatives %}
+            <li>
+                <h4>{{ initiative.title }}</h4>
+                <p>{{ initiative.description }}</p>
+                <p><strong>Benefits:</strong> {{ initiative.benefits }}</p>
+                <p><strong>Eligibility:</strong> {{ initiative.eligibility }}</p>
+                <p><strong>Target Groups:</strong> {{ initiative.target_groups }}</p>
+                <p><strong>Funds Raised:</strong> {{ initiative.funds_raised }}</p>
+                <p><strong>Beneficiaries:</strong> {{ initiative.beneficiaries }}</p>
+
+                <!-- Update and Delete Buttons -->
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="initiative_id" value="{{ initiative.id }}">
+                    <button type="submit" name="update_initiative">Update</button>
+                    <button type="submit" name="delete_initiative">Delete</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No ongoing initiatives at the moment.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- All Initiatives -->
+<div>
+    <h3>All Initiatives</h3>
+    <ul>
+        {% for initiative in initiatives %}
+            <li>
+                <h4>{{ initiative.title }}</h4>
+                <p>{{ initiative.description }}</p>
+                <p><strong>Benefits:</strong> {{ initiative.benefits }}</p>
+                <p><strong>Eligibility:</strong> {{ initiative.eligibility }}</p>
+                <p><strong>Target Groups:</strong> {{ initiative.target_groups }}</p>
+                <p><strong>Funds Raised:</strong> {{ initiative.funds_raised }}</p>
+                <p><strong>Beneficiaries:</strong> {{ initiative.beneficiaries }}</p>
+
+                <!-- Update and Delete Buttons -->
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="initiative_id" value="{{ initiative.id }}">
+                    <button type="submit" name="update_initiative">Update</button>
+                    <button type="submit" name="delete_initiative">Delete</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No initiatives available.</li>
+        {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}

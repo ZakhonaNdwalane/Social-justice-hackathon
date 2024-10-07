@@ -1,0 +1,34 @@
+{% extends 'empowerment/base.html' %}
+
+{% block content %}
+<main class="form-signin w-100 m-auto">
+    <div class="b-example-divider"></div>
+    <div class="b-example-divider"></div>
+    <div class="b-example-divider"></div>
+    <div class="b-example-divider"></div>
+
+    <div class="shadow p-3 mb-5 bg-body-tertiary rounded col-md-6 offset-md-3">
+        <!-- If form errors are present, display error message -->
+        {% if form.errors %}
+            <p class="text-danger">Please correct the errors below.</p>
+        {% endif %}
+
+        <!-- Signup Form -->
+        <h2 class="mb-3">Signup</h2>
+        <form method="POST" action="{% url 'empowerment:signup' %}">  <!-- Update this to the correct URL name for signup -->
+            {% csrf_token %}
+            {{ signup_form.as_p }}
+            <button type="submit" name="signup" class="btn btn-secondary w-100">Signup</button>
+        </form>
+
+        <!-- Display messages, if any -->
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

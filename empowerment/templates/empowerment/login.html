@@ -1,0 +1,42 @@
+{% extends 'empowerment/base.html' %}
+
+{% block content %}
+<main class="form-signin w-100 m-auto">
+    <div class="b-example-divider"></div>
+    <div class="b-example-divider"></div>
+    <div class="b-example-divider"></div>
+    <div class="b-example-divider"></div>
+
+    <div class="shadow p-3 mb-5 bg-body-tertiary rounded col-md-6 offset-md-3">
+        <!-- If form errors are present, display error message -->
+        {% if form.errors %}
+            <p class="text-danger">Wrong username or password. Please try again.</p>
+        {% endif %}
+
+        <!-- Login Form -->
+        <h2 class="mb-3">Login</h2>
+        <form method="POST" action="{% url 'empowerment:login' %}">
+            {% csrf_token %}
+            {{ login_form.as_p }}
+            <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
+        </form>
+
+        <!-- Display messages, if any -->
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <!-- Greeting for authenticated users -->
+    <div class="text-center mt-4">
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}!</p>
+            <!-- You can include a link to the logout action in the navbar -->
+        {% endif %}
+    </div>
+</main>
+{% endblock %}
