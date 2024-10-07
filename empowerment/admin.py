@@ -5,6 +5,6 @@ from .models import FinancialService, JobListing, WealthInitiatives
 
 admin.site.register(FinancialService)
 admin.site.register(JobListing)
-admin.site.register(WealthInitiatives)
-
-
+@admin.register(WealthInitiatives)
+class WealthInitiativesAdmin(admin.ModelAdmin):
+    list_display = ('initiative_name', 'funding_goal', 'funds_raised', 'start_date', 'end_date')

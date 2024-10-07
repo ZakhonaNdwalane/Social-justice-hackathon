@@ -1,5 +1,5 @@
 
-/* Header and Navbar */
+Header and Navbar
 .navbar {
     background-color: #7d5ba6;
     padding: auto; /* Deep lilac */
@@ -35,8 +35,7 @@ button, .btn {
 
 /* Footer */
 footer {
-    background-color: #5f4b8b; /* Deep lilac */
-    color: #fff;
+    color: #0f0f0f;
     text-align: center;
     padding: 15px 0;
     position: relative;
